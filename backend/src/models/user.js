@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  middleName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  age: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   username: {
     type: String,
@@ -21,6 +24,11 @@ const userSchema = new mongoose.Schema({
   // Personal Details
   dateOfBirth: { type: Date },
   gender: { type: String, enum: ["Male", "Female", "Other"] },
+  bloodType: {
+    type: String,
+    enum: ["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"],
+  },
+
   contactNumber: { type: String },
   address: {
     street: { type: String },
@@ -29,6 +37,21 @@ const userSchema = new mongoose.Schema({
     country: { type: String },
     postalCode: { type: String },
   },
+
+  typeOfID: {
+    type: String,
+    enum: [
+      "Passport",
+      "PhilSys National ID",
+      "Social Security System ID",
+      "Drivers License",
+      "Voters ID",
+      "Philhealth ID",
+      "Tin ID",
+      "PRC ID",
+    ],
+  },
+  id: { type: String },
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
