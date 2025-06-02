@@ -44,8 +44,8 @@ const registerUser = async (req, res) => {
       firstName,
       middleName,
       lastName,
-      age,
       email,
+      age,
       username,
       password: hashedPassword,
     });

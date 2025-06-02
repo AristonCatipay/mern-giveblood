@@ -6,7 +6,10 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
 function Register() {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState(0);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +27,15 @@ function Register() {
     event.preventDefault();
     setShowAlert(null);
 
-    if (!username || !password || !name || !email) {
+    if (
+      !username ||
+      !password ||
+      !firstName ||
+      !middleName ||
+      !lastName ||
+      !age ||
+      !email
+    ) {
       handleShowAlert("Please fill in all fields", "warning");
       return;
     }
@@ -35,7 +46,15 @@ function Register() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, username, password }),
+          body: JSON.stringify({
+            firstName,
+            middleName,
+            lastName,
+            email,
+            age,
+            username,
+            password,
+          }),
         }
       );
 
@@ -63,12 +82,42 @@ function Register() {
       <h1>Register Page</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>First Name:</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            placeholder="Enter first name"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Middle Name:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter middle name"
+            value={middleName}
+            onChange={(event) => setMiddleName(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Last Name:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter last name:"
+            value={lastName}
+            onChange={(event) => setLastName(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Age:</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter age"
+            value={age}
+            onChange={(event) => setAge(event.target.value)}
           />
         </Form.Group>
 
