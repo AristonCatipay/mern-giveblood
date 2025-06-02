@@ -15,6 +15,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Model
+require("./src/models/user");
+
+// Routes
+app.use("/api/users", require("./src/routes/user"));
+
 app.use((req, res) => {
   console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
   res.status(404).json({ error: "Route not found" });

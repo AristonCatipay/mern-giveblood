@@ -3,7 +3,23 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const registerUser = async (req, res) => {
-  const { name, email, username, password, role } = req.body;
+  const { firstName, middleName, lastName, age, email, username, password } =
+    req.body;
+
+  // Add validation for required fields
+  if (
+    !firstName ||
+    !middleName ||
+    !lastName ||
+    !age ||
+    !email ||
+    !username ||
+    !password
+  ) {
+    return res
+      .status(400)
+      .json({ error: "All required fields must be provided" });
+  }
 
   try {
     // Check for existing username or email
@@ -25,11 +41,13 @@ const registerUser = async (req, res) => {
 
     // Create new user
     const newUser = await User.create({
-      name,
+      firstName,
+      middleName,
+      lastName,
+      age,
       email,
       username,
       password: hashedPassword,
-      role: role || "Employee", // Default to Employee if not provided
     });
 
     // Return user data without password
@@ -38,16 +56,21 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({ user: userResponse });
   } catch (error) {
+    console.error("Registration error:", error); // Log the full error for debugging
+
     let statusCode = 500;
     let errorMessage = "Registration failed";
 
     if (error.name === "ValidationError") {
       statusCode = 400;
-      errorMessage = error.message;
+      errorMessage = Object.values(error.errors)
+        .map((val) => val.message)
+        .join(", ");
     } else if (error.code === 11000) {
-      // MongoDB duplicate key error
       statusCode = 409;
       errorMessage = "Username or email already exists";
+    } else if (error.message) {
+      errorMessage = error.message;
     }
 
     res.status(statusCode).json({ error: errorMessage });
