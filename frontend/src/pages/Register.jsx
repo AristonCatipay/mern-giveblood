@@ -13,6 +13,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showAlert, setShowAlert] = useState(null);
   const navigate = useNavigate();
 
@@ -36,7 +37,12 @@ function Register() {
       !age ||
       !email
     ) {
-      handleShowAlert("Please fill in all fields", "warning");
+      handleShowAlert("Please fill in all fields.", "warning");
+      return;
+    }
+
+    if (password != confirmPassword) {
+      handleShowAlert("Passwords doesn't match.", "warning");
       return;
     }
 
@@ -148,6 +154,16 @@ function Register() {
             placeholder="Enter Password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter Confirm Password"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </Form.Group>
 
