@@ -5,6 +5,7 @@ const {
   getAllPosts,
   getPost,
   deletePost,
+  updatePost,
 } = require("../controllers/post");
 const { authMiddleware } = require("../middleware/authMiddleware");
 
@@ -19,5 +20,8 @@ router.get("/:id", authMiddleware, getPost);
 
 // DELETE: http://localhost:3000/api/posts/:id
 router.delete("/:id", authMiddleware, deletePost);
+
+// PUT: http://localhost:3000/api/posts/:id
+router.put("/:id", authMiddleware, updatePost);
 
 module.exports = router;

@@ -84,9 +84,41 @@ const deletePost = async (req, res) => {
   }
 };
 
+// PUT: Update a specific post.
+const updatePost = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const post = await Post.findById(id);
+
+    if (!post) return res.status(404).json({ error: "No post found!" });
+
+    // Check if the authenticated user is the author
+    if (post.author.toString() !== req.user.userId) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to update this post" });
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true, runValidators: true }
+    ).populate("author", "username");
+
+    res.status(200).json({
+      message: "The post has been updated successfully!",
+      post: updatedPost,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPost,
   deletePost,
+  updatePost,
 };
