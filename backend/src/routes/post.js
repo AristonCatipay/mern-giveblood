@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createPost, getAllPosts } = require("../controllers/post");
+const { createPost, getAllPosts, getPost } = require("../controllers/post");
 const { authMiddleware } = require("../middleware/authMiddleware");
 
 // POST: http://localhost:3000/api/posts/
@@ -8,5 +8,8 @@ router.post("/", authMiddleware, createPost);
 
 // GET: http://localhost:3000/api/posts/
 router.get("/", authMiddleware, getAllPosts);
+
+// GET: http://localhost:3000/api/posts/:id
+router.get("/:id", authMiddleware, getPost);
 
 module.exports = router;
