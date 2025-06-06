@@ -17,9 +17,11 @@ app.use(cors(corsOptions));
 
 // Model
 require("./src/models/user");
+require("./src/models/post");
 
 // Routes
 app.use("/api/users", require("./src/routes/user"));
+app.use("/api/posts", require("./src/routes/post"));
 
 app.use((req, res) => {
   console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
