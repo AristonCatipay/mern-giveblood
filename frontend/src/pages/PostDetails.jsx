@@ -222,6 +222,7 @@ function PostDetails() {
               onChange={(event) => setTitle(event.target.value)}
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Description</Form.Label>
             <Form.Control
@@ -230,6 +231,46 @@ function PostDetails() {
               placeholder="Enter description"
               defaultValue={post.description}
               onChange={(event) => setDescription(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Label>Patient First Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter patient first name"
+              defaultValue={post.patientFirstName}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Label>Patient Middle Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter patient middle name"
+              defaultValue={post.patientMiddleName}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Label>Patient Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter patient last name"
+              defaultValue={post.patientLastName}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Label>Bags Needed</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter bags needed"
+              defaultValue={post.bagsNeeded}
+              onChange={(event) => setTitle(event.target.value)}
             />
           </Form.Group>
 
