@@ -21,6 +21,10 @@ function PostDetails() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [patientFirstName, setPatientFirstName] = useState("");
+  const [patientMiddleName, setPatientMiddleName] = useState("");
+  const [patientLastName, setPatientLastName] = useState("");
+  const [bagsNeeded, setBagsNeeded] = useState("");
 
   const [showAlert, setShowAlert] = useState(null);
 
@@ -132,6 +136,13 @@ function PostDetails() {
       const updatedPost = {
         title: title !== "" ? title : post.title,
         description: description !== "" ? description : post.description,
+        patientFirstName:
+          patientFirstName !== "" ? patientFirstName : post.patientFirstName,
+        patientMiddleName:
+          patientMiddleName !== "" ? patientMiddleName : post.patientMiddleName,
+        patientLastName:
+          patientLastName !== "" ? patientLastName : post.patientLastName,
+        bagsNeeded: bagsNeeded !== "" ? bagsNeeded : post.bagsNeeded,
       };
 
       const response = await fetch(
@@ -240,7 +251,7 @@ function PostDetails() {
               type="text"
               placeholder="Enter patient first name"
               defaultValue={post.patientFirstName}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setPatientFirstName(event.target.value)}
             />
           </Form.Group>
 
@@ -250,7 +261,7 @@ function PostDetails() {
               type="text"
               placeholder="Enter patient middle name"
               defaultValue={post.patientMiddleName}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setPatientMiddleName(event.target.value)}
             />
           </Form.Group>
 
@@ -260,7 +271,7 @@ function PostDetails() {
               type="text"
               placeholder="Enter patient last name"
               defaultValue={post.patientLastName}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setPatientLastName(event.target.value)}
             />
           </Form.Group>
 
@@ -270,7 +281,7 @@ function PostDetails() {
               type="number"
               placeholder="Enter bags needed"
               defaultValue={post.bagsNeeded}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => setBagsNeeded(event.target.value)}
             />
           </Form.Group>
 
