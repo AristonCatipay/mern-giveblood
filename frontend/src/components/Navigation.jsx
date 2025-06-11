@@ -22,8 +22,14 @@ function Navigation() {
             </Nav.Link>
             {localStorage.getItem("jwtToken") ? (
               <>
-                <Nav.Link as={Link} to="/">
-                  Test
+                <Nav.Link as={Link} to="/posts">
+                  Posts
+                </Nav.Link>
+                <Nav.Link as={Link} to="/posts/create">
+                  Create Post
+                </Nav.Link>
+                <Nav.Link as={Link} to="/posts/user/me">
+                  Profile
                 </Nav.Link>
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               </>
