@@ -299,6 +299,10 @@ function PostDetails() {
             <Card.Body>
               <Card.Title>{post.title}</Card.Title>
               <Card.Text>{post.description}</Card.Text>
+              <Card.Text>{post.patientFirstName}</Card.Text>
+              <Card.Text>{post.patientMiddleName}</Card.Text>
+              <Card.Text>{post.patientLastName}</Card.Text>
+              <Card.Text>{post.bagsNeeded}</Card.Text>
             </Card.Body>
           </Card>
         )
