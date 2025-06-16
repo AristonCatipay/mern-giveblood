@@ -4,16 +4,29 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
 
 import { isTokenValid } from "../utils/auth";
 
 export default function UserPosts() {
   const [posts, setPosts] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [showAlert, setShowAlert] = useState(null);
+
+  const handleShowAlert = (message, variant = "success") => {
+    setShowAlert({ message, variant });
+    setTimeout(() => {
+      setShowAlert(null);
+    }, 3000);
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUserInformationAndPosts = async () => {
       try {
         const storedToken = localStorage.getItem("jwtToken");
 
@@ -28,7 +41,28 @@ export default function UserPosts() {
           return;
         }
 
-        const response = await fetch(
+        // Fetch current user data
+        const userResponse = await fetch(
+          `${import.meta.env.VITE_APP_BASE_URL}/api/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
+        );
+
+        if (!userResponse.ok) {
+          const errorData = await userResponse.json();
+          setError(errorData.error || "Failed to retrieve user information.");
+          setIsLoading(false);
+          return;
+        }
+
+        const userData = await userResponse.json();
+        setCurrentUser(userData);
+
+        // Fetch user posts.
+        const postsResponse = await fetch(
           `${import.meta.env.VITE_APP_BASE_URL}/api/posts/user/me`,
           {
             headers: {
@@ -37,13 +71,13 @@ export default function UserPosts() {
           }
         );
 
-        if (!response.ok) {
-          const data = await response.json();
-          console.error(data.error || "Failed to retrieve posts.");
+        if (!postsResponse.ok) {
+          const data = await postsResponse.json();
+          console.error(data.error || "Failed to retrieve users posts.");
           return;
         }
 
-        const posts = await response.json();
+        const posts = await postsResponse.json();
         setPosts(posts);
       } catch (error) {
         console.error(error.message);
@@ -52,25 +86,56 @@ export default function UserPosts() {
       }
     };
 
-    fetchPosts();
+    fetchUserInformationAndPosts();
   }, [navigate]);
 
   if (isLoading || !posts) return <Spinner animation="border" variant="info" />;
 
+  const handleEditProfile = () => {
+    navigate("/profile/edit"); // Navigate to a new route for editing the profile
+  };
+
   return (
     <>
-      {posts.map((post) => (
-        <Card key={post._id}>
-          <Card.Header>{post.author.username}</Card.Header>
+      {showAlert && (
+        <Alert variant={showAlert.variant}>{showAlert.message}</Alert>
+      )}
+      {/* User Information Section */}
+      <h2 className="mb-3">Your Profile</h2>
+      {currentUser && (
+        <Card className="mb-4">
+          <Card.Header>Your Profile</Card.Header>
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.description}</Card.Text>
-            <Button variant="primary" as={Link} to={`/posts/${post._id}`}>
-              View Post Details
+            <Card.Title>{currentUser.username}</Card.Title>
+            <Card.Text>Email: {currentUser.email}</Card.Text>
+            {/* Add more user details here if available in your user object */}
+            <Button variant="info" onClick={handleEditProfile}>
+              Edit Profile
             </Button>
           </Card.Body>
         </Card>
-      ))}
+      )}
+
+      {/* User Posts Section */}
+      <h2 className="mb-3">Your Posts</h2>
+      {posts && posts.length > 0 ? (
+        posts.map((post) => (
+          <Card key={post._id} className="mb-3">
+            <Card.Header>{post.author.username}</Card.Header>
+            <Card.Body>
+              <Card.Title>{post.title}</Card.Title>
+              <Card.Text>{post.description}</Card.Text>
+              <Button variant="primary" as={Link} to={`/posts/${post._id}`}>
+                View Post Details
+              </Button>
+            </Card.Body>
+          </Card>
+        ))
+      ) : (
+        <Card className="mb-3">
+          <Card.Header>You haven't created any post yet.</Card.Header>
+        </Card>
+      )}
     </>
   );
 }
