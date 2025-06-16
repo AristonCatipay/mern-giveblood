@@ -92,7 +92,7 @@ export default function UserPosts() {
   if (isLoading || !posts) return <Spinner animation="border" variant="info" />;
 
   const handleEditProfile = () => {
-    navigate("/profile/edit"); // Navigate to a new route for editing the profile
+    navigate("/profile/edit");
   };
 
   return (
@@ -106,7 +106,10 @@ export default function UserPosts() {
         <Card className="mb-4">
           <Card.Header>Your Profile</Card.Header>
           <Card.Body>
-            <Card.Title>{currentUser.username}</Card.Title>
+            <Card.Text>First Name: {currentUser.firstName}</Card.Text>
+            <Card.Text>Middle Name: {currentUser.middleName}</Card.Text>
+            <Card.Text>Last Name: {currentUser.lastName}</Card.Text>
+            <Card.Text>Username: {currentUser.username}</Card.Text>
             <Card.Text>Email: {currentUser.email}</Card.Text>
             {/* Add more user details here if available in your user object */}
             <Button variant="info" onClick={handleEditProfile}>
