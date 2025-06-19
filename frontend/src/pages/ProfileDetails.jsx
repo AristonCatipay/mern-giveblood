@@ -76,6 +76,59 @@ export default function ProfileDetails() {
 
     fetchUserInformation();
   }, [navigate]);
+
+  const handleUpdate = async () => {
+    try {
+      const storedToken = localStorage.getItem("jwtToken");
+      if (!storedToken) {
+        navigate("/login");
+        return;
+      }
+
+      if (!isTokenValid(storedToken)) {
+        localStorage.removeItem("jwtToken");
+        navigate("/login");
+        return;
+      }
+
+      const updatedProfile = {
+        firstName: firstName !== "" ? firstName : currentUser.firstName,
+        middleName: middleName !== "" ? middleName : currentUser.middleName,
+        lastName: lastName !== "" ? lastName : currentUser.lastName,
+        age: age !== "" ? age : currentUser.age,
+        email: email !== "" ? email : currentUser.email,
+        username: username !== "" ? username : currentUser.username,
+      };
+
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_BASE_URL}/api/users/me/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${storedToken}`,
+          },
+          body: JSON.stringify(updatedProfile),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        handleShowAlert(data.error || "Failed to update post.", "danger");
+        return;
+      }
+
+      const data = await response.json();
+      handleShowAlert(`${data.message} Redirecting...`);
+      setTimeout(() => {
+        navigate("/posts");
+      }, 3000);
+    } catch (error) {
+      console.error("Failed:", error.message);
+      handleShowAlert("An unexpected error occured.", "danger");
+    }
+  };
+
   return (
     <>
       {showAlert && (
@@ -145,6 +198,10 @@ export default function ProfileDetails() {
               onChange={(event) => setUsername(event.target.value)}
             />
           </Form.Group>
+
+          <Button variant="primary" className="m-2" onClick={handleUpdate}>
+            Update
+          </Button>
         </>
       )}
     </>

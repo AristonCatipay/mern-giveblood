@@ -121,15 +121,19 @@ const getUserMe = async (req, res) => {
 
 const updateUserMe = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { firstName, middleName, lastName, age, username, email } = req.body;
 
     const user = await User.findById(req.user.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
 
-    user.username = username || user.username;
+    user.firstName = firstName || user.firstName;
+    user.middleName = middleName || user.middleName;
+    user.lastName = lastName || user.lastName;
+    user.age = age || user.age;
     user.email = email || user.email;
+    user.username = username || user.username;
 
     await user.save();
     res.status(200).json({ message: "Profile updated successfully!", user });
