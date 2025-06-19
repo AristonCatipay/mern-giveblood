@@ -7,6 +7,7 @@ import Post from "./pages/Post";
 import CreatePost from "./pages/CreatePost";
 import PostDetails from "./pages/PostDetails";
 import Profile from "./pages/Profile";
+import ProfileDetails from "./pages/ProfileDetails";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
@@ -24,7 +25,8 @@ function App() {
             <Route path="/posts" element={<Post />} />
             <Route path="/posts/create" element={<CreatePost />} />
             <Route path="/posts/:id" element={<PostDetails />} />
-            <Route path="/posts/user/me" element={<Profile />} />
+            <Route path="/profile/me" element={<Profile />} />
+            <Route path="/profile/edit" element={<ProfileDetails />} />
             <Route path="*" element={<NotFound></NotFound>}></Route>
           </Routes>
         </Container>

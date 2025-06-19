@@ -28,7 +28,7 @@ function Navigation() {
                 <Nav.Link as={Link} to="/posts/create">
                   Create Post
                 </Nav.Link>
-                <Nav.Link as={Link} to="/posts/user/me">
+                <Nav.Link as={Link} to="/profile/me">
                   Profile
                 </Nav.Link>
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
