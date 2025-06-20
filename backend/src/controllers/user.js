@@ -140,7 +140,7 @@ const getUserMe = async (req, res) => {
 
 const updateUserMe = async (req, res) => {
   try {
-    const { firstName, middleName, lastName, age, username, email } = req.body;
+    const { firstName, middleName, lastName, age, email } = req.body;
 
     const user = await User.findById(req.user.userId);
     if (!user) {
@@ -152,7 +152,6 @@ const updateUserMe = async (req, res) => {
     user.lastName = lastName || user.lastName;
     user.age = age || user.age;
     user.email = email || user.email;
-    user.username = username || user.username;
 
     await user.save();
     res.status(200).json({ message: "Profile updated successfully!", user });

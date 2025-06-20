@@ -21,7 +21,6 @@ export default function ProfileDetails() {
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(0);
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
 
   const handleShowAlert = (message, variant = "success") => {
     setShowAlert({ message, variant });
@@ -97,7 +96,6 @@ export default function ProfileDetails() {
         lastName: lastName !== "" ? lastName : currentUser.lastName,
         age: age !== "" ? age : currentUser.age,
         email: email !== "" ? email : currentUser.email,
-        username: username !== "" ? username : currentUser.username,
       };
 
       const response = await fetch(
@@ -186,16 +184,6 @@ export default function ProfileDetails() {
               placeholder="Enter email"
               defaultValue={currentUser.email}
               onChange={(event) => setEmail(event.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter username"
-              defaultValue={currentUser.username}
-              onChange={(event) => setUsername(event.target.value)}
             />
           </Form.Group>
 
