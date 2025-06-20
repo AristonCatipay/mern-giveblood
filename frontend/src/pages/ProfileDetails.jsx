@@ -21,6 +21,10 @@ export default function ProfileDetails() {
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(0);
   const [email, setEmail] = useState("");
+  const [gender, setGender] = useState();
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [bloodType, setBloodType] = useState();
+  const [contactNumber, setContactNumber] = useState("");
 
   const handleShowAlert = (message, variant = "success") => {
     setShowAlert({ message, variant });
@@ -96,6 +100,11 @@ export default function ProfileDetails() {
         lastName: lastName !== "" ? lastName : currentUser.lastName,
         age: age !== "" ? age : currentUser.age,
         email: email !== "" ? email : currentUser.email,
+        gender: gender !== "" ? gender : currentUser.gender,
+        dateOfBirth: dateOfBirth !== "" ? dateOfBirth : currentUser.dateOfBirth,
+        bloodType: bloodType !== "" ? bloodType : currentUser.bloodType,
+        contactNumber:
+          contactNumber !== "" ? contactNumber : currentUser.contactNumber,
       };
 
       const response = await fetch(
@@ -184,6 +193,58 @@ export default function ProfileDetails() {
               placeholder="Enter email"
               defaultValue={currentUser.email}
               onChange={(event) => setEmail(event.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formGender">
+            <Form.Label>Gender:</Form.Label>
+            <Form.Select
+              defaultValue={currentUser.gender}
+              onChange={(event) => setGender(event.target.value)}
+            >
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBloodType">
+            <Form.Label>Blood Type:</Form.Label>
+            <Form.Select
+              defaultValue={currentUser.bloodType}
+              onChange={(event) => setBloodType(event.target.value)}
+            >
+              <option value="">Select blood type</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formDOB">
+            <Form.Label>Date of Birth:</Form.Label>
+            <Form.Control
+              type="date"
+              defaultValue={
+                dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : ""
+              }
+              onChange={(event) => setDateOfBirth(new Date(event.target.value))}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formContactNumber">
+            <Form.Label>Contact Number:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter contact number:"
+              defaultValue={currentUser.contactNumber}
+              onChange={(event) => setContactNumber(event.target.value)}
             />
           </Form.Group>
 
