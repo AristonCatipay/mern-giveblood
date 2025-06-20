@@ -3,8 +3,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const registerUser = async (req, res) => {
-  const { firstName, middleName, lastName, age, email, username, password } =
-    req.body;
+  const {
+    firstName,
+    middleName,
+    lastName,
+    age,
+    email,
+    username,
+    password,
+    gender,
+    dateOfBirth,
+    bloodType,
+    contactNumber,
+  } = req.body;
 
   // Add validation for required fields
   if (
@@ -14,7 +25,11 @@ const registerUser = async (req, res) => {
     !age ||
     !email ||
     !username ||
-    !password
+    !password ||
+    !gender ||
+    !dateOfBirth ||
+    !bloodType ||
+    !contactNumber
   ) {
     return res
       .status(400)
@@ -48,6 +63,10 @@ const registerUser = async (req, res) => {
       age,
       username,
       password: hashedPassword,
+      gender,
+      dateOfBirth,
+      bloodType,
+      contactNumber,
     });
 
     // Return user data without password
