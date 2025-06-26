@@ -1,17 +1,20 @@
 const mongoose = require("mongoose");
 const Post = require("./post");
+const User = require("./user");
 
 const groupSchema = new mongoose.Schema({
-  admin: { type: String, required: true },
-  adminName: { type: String, required: true },
   groupName: { type: String, required: true },
+  admin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   postID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
     required: true,
   },
   datePublished: { type: Date },
-
   createdAt: {
     type: Date,
     default: Date.now,

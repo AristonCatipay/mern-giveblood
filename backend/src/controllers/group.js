@@ -1,0 +1,36 @@
+const Group = require("../models/group");
+const User = require("../models/user");
+
+const createGroup = async (req, res) => {
+  const { groupName, postID } = req.body;
+
+  try {
+    // Verify the post exists
+    const post = await Post.findById(postID);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // Check if a group already exists for this post (optional)
+    const existingGroup = await Group.findOne({ postID });
+    if (existingGroup) {
+      return res
+        .status(400)
+        .json({ error: "A group already exists for this post" });
+    }
+
+    const group = await Group.create({
+      groupName,
+      admin: req.user.userId,
+      postID: postID,
+    });
+
+    res.status(201).json(group);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createGroup,
+};

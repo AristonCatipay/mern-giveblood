@@ -298,11 +298,11 @@ function PostDetails() {
             <Card.Header>{post.author.username}</Card.Header>
             <Card.Body>
               <Card.Title>{post.title}</Card.Title>
-              <Card.Text>{post.description}</Card.Text>
-              <Card.Text>{post.patientFirstName}</Card.Text>
-              <Card.Text>{post.patientMiddleName}</Card.Text>
-              <Card.Text>{post.patientLastName}</Card.Text>
-              <Card.Text>{post.bagsNeeded}</Card.Text>
+              <Card.Text>Description: {post.description}</Card.Text>
+              <Card.Text>Firstname: {post.patientFirstName}</Card.Text>
+              <Card.Text>Middlename: {post.patientMiddleName}</Card.Text>
+              <Card.Text>Lastname: {post.patientLastName}</Card.Text>
+              <Card.Text>Bags Needed: {post.bagsNeeded}</Card.Text>
             </Card.Body>
           </Card>
         )
