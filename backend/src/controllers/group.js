@@ -41,7 +41,23 @@ const getUserGroups = async (req, res) => {
   }
 };
 
+// GET: Get a single group.
+const getGroup = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const group = await Group.findById(id);
+
+    if (!group) return res.status(404).json({ error: "No group found!" });
+
+    res.status(200).json(group);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createGroup,
   getUserGroups,
+  getGroup,
 };
