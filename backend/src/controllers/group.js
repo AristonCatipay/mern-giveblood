@@ -1,5 +1,6 @@
 const Group = require("../models/group");
 const User = require("../models/user");
+const Post = require("../models/post");
 
 const createGroup = async (req, res) => {
   const { groupName, postID } = req.body;
@@ -31,6 +32,16 @@ const createGroup = async (req, res) => {
   }
 };
 
+const getUserGroups = async (req, res) => {
+  try {
+    const groups = await Group.find({ admin: req.user.userId });
+    res.status(200).json(groups);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createGroup,
+  getUserGroups,
 };
