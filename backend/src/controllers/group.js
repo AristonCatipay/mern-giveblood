@@ -56,8 +56,32 @@ const getGroup = async (req, res) => {
   }
 };
 
+// DELETE: Delete a specific group.
+const deleteGroup = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const group = await Group.findById(id);
+
+    if (!group) return res.status(404).json({ error: "No group found!" });
+
+    // Check if the authenticated user is the author
+    if (group.admin.toString() !== req.user.userId) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to delete this group" });
+    }
+    await Group.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "The group has been removed" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createGroup,
   getUserGroups,
   getGroup,
+  deleteGroup,
 };
