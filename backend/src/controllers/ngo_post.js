@@ -34,7 +34,23 @@ const getAllNGOPosts = async (req, res) => {
   }
 };
 
+// GET: Get a single NGO post.
+const getNGOPost = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const NGOPost = await NGOPost.findById(id).populate("author", "username");
+
+    if (!NGOPost) return res.status(404).json({ error: "No post found!" });
+
+    res.status(200).json(NGOPost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createNGOPost,
   getAllNGOPosts,
+  getNGOPost,
 };
