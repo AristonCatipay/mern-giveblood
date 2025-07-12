@@ -1,0 +1,30 @@
+const NGOPost = require("../models/ngo_post");
+const User = require("../models/user");
+
+// POST: Create a NGO post.
+const createNGOPost = async (req, res) => {
+  const { username, description } = req.body;
+
+  try {
+    const ngopost = await NGOPost.create({
+      username,
+      description,
+      author: req.user.userId,
+    });
+
+    // Find the user and update their posts array
+    // const user = await User.findById(req.user.userId);
+    // if (user) {
+    //   user.posts.push(post._id);
+    //   await user.save();
+    // }
+
+    res.status(201).json(ngopost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createNGOPost,
+};

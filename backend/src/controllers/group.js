@@ -99,7 +99,7 @@ const updateGroup = async (req, res) => {
       id,
       { ...req.body },
       { new: true, runValidators: true }
-    ).populate("author", "username");
+    ).populate("admin", "username");
 
     res.status(200).json({
       message: "The group has been updated successfully!",
