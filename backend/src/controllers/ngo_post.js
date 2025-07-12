@@ -25,6 +25,16 @@ const createNGOPost = async (req, res) => {
   }
 };
 
+const getAllNGOPosts = async (req, res) => {
+  try {
+    const NGOPosts = await NGOPost.find().populate("author", "username");
+    res.status(200).json(NGOPosts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createNGOPost,
+  getAllNGOPosts,
 };
